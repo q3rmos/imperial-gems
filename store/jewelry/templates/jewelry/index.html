@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="p-5 text-center bg-light rounded-3">
+        <h1 class="display-4">Luxurious jewelry for your look</h1>
+        <p class="lead">Exclusive jewelry for true connoisseurs of beauty</p>
+        <a href="{% url 'products' %}" class="btn btn-primary btn-lg">Go to catalog</a>
+    </div>
+
+    <section class="mt-5">
+        <h2 class="text-center mb-4">Categories of jewelry</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                    {% else %}
+                        <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="{{ category.name }}">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <a href="{% url 'category' category.slug %}" class="btn btn-outline-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mt-5">
+        <h2 class="text-center mb-4">Popular jewelry</h2>
+        <div class="row">
+            {% for product in popular_products %}
+            <div class="col-md-3">
+                <div class="card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="No image available">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-danger">${{ product.price }}</p>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-success">Buy</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

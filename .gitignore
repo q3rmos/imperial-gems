@@ -1,0 +1,95 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+*.log
+*.bak
+*.swp
+*.swo
+
+# Django-specific
+*.secret
+media/
+staticfiles/
+static/
+node_modules/
+*.db
+*.pot
+*.py[co]
+*.sqlite3
+*.log
+*.pid
+*.seed
+*.bak
+*.swp
+*.swo
+*.envrc
+*.coverage
+*.cover
+.coverage.*
+*.py,cover
+instance/
+.well-known/
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Virtual environment
+venv/
+env/
+ENV/
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# System Files (Windows)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Testing / Coverage reports
+htmlcov/
+.tox/
+.nox/
+.cache
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+pytest_debug.log
+
+# Migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# Visual Studio Code settings (Windows-specific)
+.vscode/
+*.code-workspace
+.history/
+*.user
+*.workspace
+
+# Local .env files
+.env
+.env.*
+
+# Windows-specific system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

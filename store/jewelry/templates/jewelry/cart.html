@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    
+    <div class="text-center">
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+        {% endif %}
+        <h1 class="display-4">Shopping Cart</h1>
+        <p class="lead">Review your selected products before placing your order</p>
+    </div>
+
+    {% if messages %}
+        <div class="alert alert-success mt-3">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="list-group mb-4">
+                {% for item in cart_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                             class="me-3" style="width: 80px; height: auto;">
+                        <div>
+                            <h5 class="mb-1">{{ item.product.name }}</h5>
+                            <p class="mb-1 text-danger">${{ item.product.price }}</p>
+
+                            <div class="d-flex align-items-center">
+                                <button type="button"
+                                        class="btn btn-light btn-sm px-2 decrement"
+                                        data-product-id="{{ item.product.id }}">−</button>
+                            
+                                <span class="mx-3 fw-bold quantity-display"
+                                      data-product-id="{{ item.product.id }}">{{ item.quantity }}</span>
+                            
+                                <button type="button"
+                                        class="btn btn-light btn-sm px-2 increment"
+                                        data-product-id="{{ item.product.id }}">+</button>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="{% url 'remove_from_cart' item.product.id %}" 
+                           class="btn btn-outline-danger btn-sm">
+                            Remove
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>Total: <span class="text-danger" id="total-price">${{ total_price }}</span></h4>
+                <a href="{% url 'checkout' %}" class="btn btn-success w-100 mt-3">Place an order</a>
+
+                <a href="{% url 'clear_cart' %}" class="btn btn-danger w-100 mt-2">Clear Cart</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <p class="text-center">Your cart is empty.</p>
+    {% endif %}
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const updateQuantity = (productId, quantity) => {
+            fetch(`/cart/update/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `quantity=${quantity}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const quantityDisplay = document.querySelector(`.quantity-display[data-product-id="${productId}"]`);
+                    if (quantityDisplay) {
+                        quantityDisplay.innerText = data.quantity;
+                    }
+    
+                    const itemTotal = document.querySelector(`#item-total-${productId}`);
+                    if (itemTotal) {
+                        itemTotal.innerText = `$${parseFloat(data.total_price).toFixed(2)}`;
+                    }
+    
+                    const totalPriceElement = document.getElementById('total-price');
+                    if (totalPriceElement) {
+                        totalPriceElement.innerText = `$${parseFloat(data.cart_total).toFixed(2)}`;
+                    }
+                }
+            });
+        };
+    
+        document.querySelectorAll('.increment').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.productId;
+                const quantityDisplay = document.querySelector(`.quantity-display[data-product-id="${productId}"]`);
+                let currentQuantity = parseInt(quantityDisplay.innerText, 10);
+                currentQuantity++;
+                quantityDisplay.innerText = currentQuantity;
+                updateQuantity(productId, currentQuantity);
+            });
+        });
+    
+        document.querySelectorAll('.decrement').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.productId;
+                const quantityDisplay = document.querySelector(`.quantity-display[data-product-id="${productId}"]`);
+                let currentQuantity = parseInt(quantityDisplay.innerText, 10);
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    quantityDisplay.innerText = currentQuantity;
+                    updateQuantity(productId, currentQuantity);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

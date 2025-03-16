@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="text-center">
+        <h1 class="display-4">About Us</h1>
+        <p class="lead">We create exquisite jewelry that highlights your individuality and style.</p>
+    </div>
+
+    <section class="mt-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{% static 'jewelry/images/about_us.webp' %}" class="img-fluid rounded" alt="About us">
+            </div>
+            <div class="col-md-6">
+                <h2>Our history</h2>
+                <p>The company was founded in 2005 with the aim of creating unique high-quality jewelry. We are inspired by traditions and implement modern technologies to create jewelry that pleases our customers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-5 text-center">
+        <h2>Why us?</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <i class="bi bi-gem display-4 text-primary"></i>
+                <h5 class="mt-3">Best materials</h5>
+                <p>We use only high quality metals and precious stones.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-hand-thumbs-up display-4 text-primary"></i>
+                <h5 class="mt-3">Quality assurance</h5>
+                <p>Each product undergoes strict quality control.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-heart display-4 text-primary"></i>
+                <h5 class="mt-3">Love for details</h5>
+                <p>Our craftsmen put their soul into every piece of jewelry.</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="text-center">
+        <h1 class="display-4">Contacts</h1>
+        <p class="lead">Contact us in any way convenient for you</p>
+    </div>
+
+    <section class="mt-5 text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <i class="fa-solid fa-phone" style="font-size: 3rem; color:rgb(6, 131, 6);"></i>
+                <h5 class="mt-3">Telephone</h5>
+                <p>+1 (814) 123-45-67</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa-solid fa-envelope" style="font-size: 3rem; color:rgb(0, 123, 255);"></i>
+                <h5 class="mt-3">Email</h5>
+                <p>info@jewelrystore.com</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa-solid fa-location-dot" style="font-size: 3rem; color:rgb(255, 0, 0);"></i>
+                <h5 class="mt-3">Address</h5>
+                <p>London, st. Approximate, 10</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-5">
+        <h2 class="text-center">Contact us</h2>
+        <form method="POST" class="mx-auto" style="max-width: 600px;">
+            {% csrf_token %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Please correct the following issues:
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            <li>{{ field|title }}: {{ errors|join:", " }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="id_name" class="form-label">Name</label>
+                {{ form.name }}
+            </div>
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                <label for="id_message" class="form-label">Message</label>
+                {{ form.message }}
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </section>
+</main>
+<script src="{% static "jewelry/js/email_validator.js" %}"></script>
+<script>
+    document.getElementById('id_message').addEventListener('input', function () {
+        const messageInput = this.value.trim();
+
+        if (messageInput.length < 10) {
+            this.setCustomValidity("Message must be at least 10 characters long.");
+        } else {
+            this.setCustomValidity("");
+        }
+    });
+</script>
+{% endblock %}

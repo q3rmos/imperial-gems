@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="card shadow-sm p-3 w-100" style="max-width: 320px;">
+        <h2 class="text-center mb-3 text-primary">Register</h2>
+
+        <form method="POST" class="needs-validation">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-2">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary w-100 mb-2 py-1">Register</button>
+
+            <div class="text-center">
+                <p class="small">Already have an account? <a href="{% url 'login' %}" class="text-primary">Login here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{% static "jewelry/js/username_validator.js" %}"></script>
+<script src="{% static "jewelry/js/email_validator.js" %}"></script>
+<script>
+    document.getElementById('id_phone').addEventListener('input', function (event) {
+        const phonePattern = /^\d{10,15}$/;
+        if (!phonePattern.test(this.value)) {
+            this.setCustomValidity("Phone number must contain 10-15 digits.");
+        } else {
+            this.setCustomValidity("");
+        }
+    });
+</script>
+{% endblock %}

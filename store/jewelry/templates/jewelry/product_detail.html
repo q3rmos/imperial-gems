@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'jewelry/images/default-product.webp' %}" class="img-fluid rounded" alt="No image available">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-5">{{ product.name }}</h1>
+            <p class="text-muted">{{ product.category.name }}</p>
+            <p class="lead text-danger">${{ product.price }}</p>
+            <p>{{ product.description }}</p>
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

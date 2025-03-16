@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center">{{ category.name }}</h1>
+
+    {% if products %}
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                    <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="No image available">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-danger">${{ product.price }}</p>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-success">Read more</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">There are no products in this category yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
