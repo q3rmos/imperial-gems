@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-7">
-            <form method="POST" class="p-4 border rounded bg-light shadow-sm">
+            <form method="POST" id="checkout-form" data-email-form class="p-4 border rounded bg-light shadow-sm">
                 {% csrf_token %}
 
                 {% if form.errors %}

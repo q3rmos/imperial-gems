@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load media_extras %}
 
 {% block content %}
 <main class="container my-5">
@@ -15,11 +16,7 @@
             {% for category in categories %}
             <div class="col-md-4">
                 <div class="card">
-                    {% if category.image %}
-                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
-                    {% else %}
-                        <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="{{ category.name }}">
-                    {% endif %}
+                    <img src="{% image_or_placeholder category.image %}" class="card-img-top" alt="{{ category.name }}">
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ category.name }}</h5>
                         <a href="{% url 'category' category.slug %}" class="btn btn-outline-primary">View</a>
@@ -36,11 +33,7 @@
             {% for product in popular_products %}
             <div class="col-md-3">
                 <div class="card">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="No image available">
-                    {% endif %}
+                    <img src="{% image_or_placeholder product.image %}" class="card-img-top" alt="{{ product.name }}">
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text text-danger">${{ product.price }}</p>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load media_extras %}
 
 {% block content %}
 <main class="container my-5">
@@ -8,11 +9,7 @@
         {% for product in products %}
         <div class="col-md-3 mb-4">
             <div class="card">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                {% else %}
-                    <img src="{% static 'jewelry/images/default-product.webp' %}" class="card-img-top" alt="No image available">
-                {% endif %}
+                <img src="{% image_or_placeholder product.image %}" alt="{{ product.name }}">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text text-danger">${{ product.price }}</p>

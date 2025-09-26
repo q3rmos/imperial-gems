@@ -13,7 +13,6 @@ __pycache__/
 *.secret
 media/
 staticfiles/
-static/
 node_modules/
 *.db
 *.pot

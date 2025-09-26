@@ -46,6 +46,7 @@ pip install -r requirements.txt
 ```
 SECRET_KEY=your-very-secure-secret-key
 DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
 DATABASE_NAME=store_db
 DATABASE_USER=store_admin
 DATABASE_PASSWORD=strongpassword123
